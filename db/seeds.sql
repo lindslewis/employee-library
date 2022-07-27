@@ -1,5 +1,4 @@
 USE staff_db;
-
 INSERT INTO department (name)
 VALUES  ("Sales"),
         ("Finance"),
@@ -18,13 +17,13 @@ VALUES  ("Sales Lead", 100000, 1),
         ("System Engineer", 100000, 5),
         ("Support Specialist", 70000, 5);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES  ("Marcelyn", "Samuel", 1),
+VALUES  ("Marcelyn", "Samuel", 1, NULL),
         ("Sigmund", "Samaras", 3, 6),
-        ("Legend", "Laine", 10),
-        ("Mitra", "Pesty", 8),
-        ("Aurora", "Richard", 7),
-        ("Marshall", "Diaz", 4),
-        ("Yvain", "Grahame", 2,1),
-        ("Shavon", "Pander", 2,1),
-        ("Julianna", "Mills", 5);
+        ("Legend", "Laine", 10, NULL),
+        ("Mitra", "Pesty", 8, NULL),
+        ("Aurora", "Richard", 7, NULL),
+        ("Marshall", "Diaz", 4, NULL),
+        ("Yvain", "Grahame", 2, 1),
+        ("Shavon", "Pander", 2, 1),
+        ("Julianna", "Mills", 5, NULL);
 
