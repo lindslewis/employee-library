@@ -14,10 +14,14 @@ const initPrompt = () => {
     ]).then((ans=> {
         // come back to know how to insert .sql info in here :)
         if(ans.all === "View All Departments") {
-            console.log('You are now viewing all departments.');
+        //  db.query('SELECT * FROM departments', (err, results) => {
+        //         console.table(results);
+        //     });
+
             // console.table
         } else if (ans.all === "View All Roles") {
             console.log("You are now viewing all current roles.");
+
         }else if (ans.all === "View All Employees") {
             console.log("You are now viewing all current employees.");
         }else if (ans.all === "Add a Department") {
