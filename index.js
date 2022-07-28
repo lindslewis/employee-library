@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const conTable = require('console.table');
+const cTable = require('console.table');
 
 
 
@@ -10,7 +10,7 @@ const initPrompt = () => {
             choices: ["View All Departments", "View All Roles", "View All Employees", "Add a Department", "Add a Role", "Add an Employee", "Update Employee Role", "Quit"],
             message: 'Pleaser select one from the list below.',
             name: 'all',
-        },
+        }
     ]).then((ans=> {
         // come back to know how to insert .sql info in here :)
         if(ans.all === "View All Departments") {
