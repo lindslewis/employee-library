@@ -1,6 +1,27 @@
 const inquirer = require('inquirer');
 const cTable = require('console.table');
+const { formatWithOptions } = require('util');
+const { table } = require('console');
+const express = require('express');
+const mysql = require('mysql2');
+const cTable = require('console.table');
 
+// const index = require('index.js');
+
+const app = express();
+
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+
+const db = mysql.createConnection(
+    {
+        host: 'localhost',
+        user: 'root',
+        password: '$t@rmY86mflf',
+        database: 'staff_db'
+    },
+    console.log('connected to the staff_db database.')
+);
 
 
 const initPrompt = () => {
@@ -43,11 +64,11 @@ const initPrompt = () => {
 
         // to add an employee
         }else if(ans.all === "Add an Employee") {
-            console.log("You will now be prompted for information on the new employee.");
+            newEmp()
 
         // to update an employee's role
         }else if(ans.all === "Update Employee Role") {
-            console.log("You will now be prompted for the new information for your employee.");
+            updateEmp
 
         // to quit
         }else {
@@ -86,21 +107,71 @@ const newRole = () => {
             name: 'salary',
         },
         {
+        // since departments can be added, we will need to redo how the choices are called
             type:'list',
             message: "What department does the role belong to?",
             choices: ['Sales', 'Finance', 'Marketing', 'Human Resources', 'IT'],
             name: 'rdep',
         }
     ]).then((ans=> {
-        console.log('Added ${ans.nrole} to the database.')
-        db.query('INSERT INTO role(title, salary, department_id) VALUES (ans.nrole, ans.salary, ans.rdep)')
+            db.query('INSERT INTO role(title, salary, department_id) VALUES (ans.nrole, ans.salary, ans.rdep)', function(err,results){
+                console.log('Added ${ans.nrole} to the database.')
+            })
     }))
+    initPrompt()
 };
 
 const newEmp = () => {
     inquirer.prompt([
         {
-            type:
+            type: 'input',
+            message: "What is the employee's first name?",
+            name: 'first',
+        },
+        {
+            type: 'input',
+            message: "What is the employee's last name?",
+            name: 'last',
+        },
+        {
+            type: 'list',
+            message: "What is the employee's role?",
+            choices: ['Sales Lead', 'Sales Associate', 'Payroll Clerk', 'Purchasing Manager', 'Marketing Analyst', 'Marketing Specialist', 'Recruiter', 'HR Coordinator', 'System Engineer', 'Support Specialist'],
+            name: 'empRole',
+        },
+        {
+            type: 'list',
+            message: "Who is the employee's manager?",
+            choices: ['Marshall Diaz', 'Marcelyn Samuel', 'no manager'],
+            name: 'manage',
         }
-    ])
+    ]).then((ans => {
+            db.query('INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES (ans.first, ans.last, ans.empRole, ans.manage)', function(err, results){
+                console.log('Added ${ans.first} ${ans.last} to the database.')
+            })
+    }))
+    initPrompt()
+};
+
+const updateEmp = () => {
+    inquirer.prompt([
+        {
+            type: 'list',
+            message: "Which employee's role is being updated?",
+            choices: ['Marcelyn Samuel', 'Sigmund Samaras', 'Legend Laine', 'Mitra Pesty', 'Aurora Richard', 'Marshall Diaz', 'Yvain Grahame', 'Shavon Pander', 'Julianna Mills'],
+            name: 'who',
+
+        },
+        {
+            type: 'list',
+            message: "What role do you want to assign to this employee?",
+            choices: ['Sales Lead', 'Sales Associate', 'Payroll Clerk', 'Purchasing Manager', 'Marketing Analyst', 'Marketing Specialist', 'Recruiter', 'HR Coordinator', 'System Engineer', 'Support Specialist'],
+            name: 'newrole'
+        }
+    ]).then((ans=>{
+        db.query('UPDATE employee SET role_id = "${ans.newrole}" WHERE name = "${ans.who}";', function(err,results){
+            console.log("Successfully updated ${ans.who} in the database.")
+        })
+        initPrompt()
+    }))
 }
