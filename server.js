@@ -5,7 +5,6 @@ const cTable = require('console.table');
 
 // const index = require('index.js');
 
-const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(express.urlencoded({extended: false}));
@@ -22,10 +21,19 @@ const db = mysql.createConnection(
 );
 
 
-db.query('SELECT * FROM departments', (err, results) => {
+db.query('SELECT * FROM department', function(err, results){
     console.table(results);
 });
 
+db.query('SELECT * FROM role', function(err, results){
+    console.table(results);
+});
+
+db.query('SELECT * FROM employee', function(err, results){
+    console.table(results);
+});
+
+db.query('INSERT INTO department(department) VALUES ()')
 // app.get('/api/all-departments', console.table(['id','department'], results), (req,res)=> {
 //     db.query('SELECT *  FROM department', (err, results) => {
 //         console.log(results);
@@ -37,11 +45,3 @@ db.query('SELECT * FROM departments', (err, results) => {
 //     })
 // });
 
-app.post('/api/view-departments', (req,res)=> {
-    
-})
-
-
-app.listen(PORT, () => {
-    console.log(`server is running on port ${PORT}`);
-});

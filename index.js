@@ -14,18 +14,22 @@ const initPrompt = () => {
     ]).then((ans=> {
         // come back to know how to insert .sql info in here :)
         if(ans.all === "View All Departments") {
-        //  db.query('SELECT * FROM departments', (err, results) => {
-        //         console.table(results);
-        //     });
-
-            // console.table
+            db.query('SELECT * FROM department', function(err, results){
+                console.table(results);
+            });
+            initPrompt()            
         } else if (ans.all === "View All Roles") {
-            console.log("You are now viewing all current roles.");
-
+            db.query('SELECT * FROM role', function(err, results){
+                console.table(results);
+            });
+            initPrompt()
         }else if (ans.all === "View All Employees") {
-            console.log("You are now viewing all current employees.");
+            db.query('SELECT * FROM employee', function(err, results){
+                console.table(results);
+            });
+            initPrompt()
         }else if (ans.all === "Add a Department") {
-            console.log("You will now be prompted to add a new department.");
+            newDep()
         }else if(ans.all === "Add a Role") {
             console.log("You will now be prompted for information on the new role.");
         }else if(ans.all === "Add an Employee") {
@@ -40,3 +44,16 @@ const initPrompt = () => {
     ))}
 initPrompt()
 
+const newDep = () =>{
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'What is the name of the new department?',
+            name: 'dep',
+        }
+    ]).then((ans=> {
+        console.log('Added ${ans.dep} to the database.')
+        db.query('INSERT INTO department(department) VALUES (ans.dep)')
+        initPrompt()
+    }))
+}

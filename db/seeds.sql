@@ -1,5 +1,5 @@
 USE staff_db;
-INSERT INTO department (name)
+INSERT INTO department (department)
 VALUES  ("Sales"),
         ("Finance"),
         ("Marketing"),
