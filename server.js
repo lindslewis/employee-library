@@ -21,27 +21,3 @@ const db = mysql.createConnection(
 );
 
 
-db.query('SELECT * FROM department', function(err, results){
-    console.table(results);
-});
-
-db.query('SELECT * FROM role', function(err, results){
-    console.table(results);
-});
-
-db.query('SELECT * FROM employee', function(err, results){
-    console.table(results);
-});
-
-db.query('INSERT INTO department(department) VALUES ()')
-// app.get('/api/all-departments', console.table(['id','department'], results), (req,res)=> {
-//     db.query('SELECT *  FROM department', (err, results) => {
-//         console.log(results);
-//         if(err){
-
-//         }
-//         // const dep =  
-//         // console.table(['id', 'name'], dep);
-//     })
-// });
-
