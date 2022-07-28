@@ -1,17 +1,10 @@
 const inquirer = require('inquirer');
-const cTable = require('console.table');
 const { formatWithOptions } = require('util');
 const { table } = require('console');
-const express = require('express');
 const mysql = require('mysql2');
 const cTable = require('console.table');
 
 // const index = require('index.js');
-
-const app = express();
-
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
 
 const db = mysql.createConnection(
     {
@@ -35,24 +28,28 @@ const initPrompt = () => {
     ]).then((ans=> {
         // to view all deps
         if(ans.all === "View All Departments") {
+            '\n'
             db.query('SELECT * FROM department', function(err, results){
                 console.table(results);
+                initPrompt()  
             });
-            initPrompt()  
+      
             
         // to view all roles   
         } else if (ans.all === "View All Roles") {
             db.query('SELECT * FROM role', function(err, results){
                 console.table(results);
+                initPrompt()
             });
-            initPrompt()
+           
 
         // to view all employees
         }else if (ans.all === "View All Employees") {
             db.query('SELECT * FROM employee', function(err, results){
                 console.table(results);
+                initPrompt()
             });
-            initPrompt()
+            
 
         // to add a department
         }else if (ans.all === "Add a Department") {
@@ -77,7 +74,7 @@ const initPrompt = () => {
         }
         }
     ))}
-initPrompt()
+    initPrompt()
 
 // this is called above
 const newDep = () =>{
@@ -89,8 +86,10 @@ const newDep = () =>{
         }
     ]).then((ans=> {
         db.query('INSERT INTO department(department) VALUES (ans.dep)', function(err, results) {
-            console.log('Added ${ans.dep} to the database.')})
-        initPrompt()
+            console.log('Added ${ans.dep} to the database.')
+            initPrompt()
+        })
+    
     }))
 };
 
@@ -116,9 +115,10 @@ const newRole = () => {
     ]).then((ans=> {
             db.query('INSERT INTO role(title, salary, department_id) VALUES (ans.nrole, ans.salary, ans.rdep)', function(err,results){
                 console.log('Added ${ans.nrole} to the database.')
+                initPrompt()
             })
     }))
-    initPrompt()
+    
 };
 
 const newEmp = () => {
@@ -146,11 +146,12 @@ const newEmp = () => {
             name: 'manage',
         }
     ]).then((ans => {
-            db.query('INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES (ans.first, ans.last, ans.empRole, ans.manage)', function(err, results){
+            db.query('INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)' [ans.first, ans.last, ans.empRole, ans.manage], function(err, results){
                 console.log('Added ${ans.first} ${ans.last} to the database.')
+                initPrompt()
             })
     }))
-    initPrompt()
+   
 };
 
 const updateEmp = () => {
@@ -169,9 +170,10 @@ const updateEmp = () => {
             name: 'newrole'
         }
     ]).then((ans=>{
-        db.query('UPDATE employee SET role_id = "${ans.newrole}" WHERE name = "${ans.who}";', function(err,results){
-            console.log("Successfully updated ${ans.who} in the database.")
+        db.query('UPDATE employee SET role_id = "${ans.newrole" WHERE name = "${ans.who}";', function(err,results){
+            console.log(`Successfully updated ${ans.who} in the database.`)
+            initPrompt()
         })
-        initPrompt()
+        
     }))
 }
