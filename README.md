@@ -10,6 +10,7 @@ A command line application to present tables containing information on company d
 4. [credits](#credits)
 
 ## walkthrough-video
+[walkthrough-video](https://user-images.githubusercontent.com/104105172/181691271-27795841-c181-44a7-9b2f-e573dd06afe5.mp4)
 
 ## usage
 This app is meant to be used via inquirer and node in a source code editor of your choice as a command line application. 
@@ -32,4 +33,8 @@ University of Washington Coding Bootcamp:
 Instructor and Teaching Assistants
 
 [W3Schools](https://www.w3schools.com/mySQl/default.asp) for some tutorial information on mySql.
+
+
+
+
 
