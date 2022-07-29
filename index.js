@@ -28,7 +28,6 @@ const initPrompt = () => {
     ]).then((ans=> {
         // to view all deps
         if(ans.all === "View All Departments") {
-            '\n'
             db.query('SELECT * FROM department', function(err, results){
                 console.table(results);
                 initPrompt()  
@@ -136,7 +135,7 @@ const newEmp = () => {
         {
             type: 'list',
             message: "What is the employee's role?",
-            choices: ['Sales Lead', 'Sales Associate', 'Payroll Clerk', 'Purchasing Manager', 'Marketing Analyst', 'Marketing Specialist', 'Recruiter', 'HR Coordinator', 'System Engineer', 'Support Specialist'],
+            choices: 'SELECT role.title AS name, role.id AS value FROM role',
             name: 'empRole',
         },
         {
@@ -146,13 +145,21 @@ const newEmp = () => {
             name: 'manage',
         }
     ]).then((ans => {
-            db.query('INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)', [ans.first, ans.last, ans.empRole, ans.manage], function(err, results){
+            db.query('INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)', 
+            [
+                ans.first, 
+                ans.last, 
+                ans.empRole, 
+                ans.manage
+            ],
+             function(err, results){
                 console.log(`Added ${ans.first} ${ans.last} to the database.`)
                 initPrompt()
             })
     }))
    
 };
+// SELECT newRole.title AS name, role.id AS value FROM role
 
 const updateEmp = () => {
     inquirer.prompt([
