@@ -16,6 +16,11 @@ const db = mysql.createConnection(
     console.log('connected to the staff_db database.')
 );
 
+// class dbConst {
+//     constructor(config) {
+        
+//     }
+// }
 
 const initPrompt = () => {
     inquirer.prompt([
@@ -68,7 +73,7 @@ const initPrompt = () => {
 
         // to delete a department
         }else if(ans.all === "Delete Department"){
-
+            deleteDep()
 
         // to quit
         }else {
@@ -189,18 +194,20 @@ const updateEmp = () => {
     }));
 }
 
-const deleteDep = () => {
-    let currentDep = db.query('SELECT*FROM department');
-        inquirer.prompt ([
-            {
-                type: 'list',
-                message: "Which department is being dissolved?",
-                name: 'delDep',
-                choices: [currentDep]
-            }
-        ]).then ((ans => {
-            db.query("DELETE FROM department WHERE department= [ans.delDep]", function(err, results){
-                console.log(`Successfully dissolved ${ans.delDep}.`)
-            })
-        }))
-}
+// const deleteDep = () => {
+//     let currentDep = db.query('SELECT*FROM department', () => {
+//         inquirer.prompt ([
+//             {
+//                 type: 'list',
+//                 message: "Which department is being dissolved?",
+//                 name: 'delDep',
+//                 choices: [currentDep]
+//             },
+//             ])
+//         }).then ((ans => {
+//            return db.query("DELETE FROM department WHERE department= [ans.delDep]", function(err, results){
+//                 console.log(`Successfully dissolved ${ans.delDep}.`)
+//                 initPrompt()
+//             })
+//         }))
+// }
