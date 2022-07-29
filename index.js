@@ -26,7 +26,7 @@ const initPrompt = () => {
     inquirer.prompt([
         {
             type: 'list',
-            choices: ["View All Departments", "View All Roles", "View All Employees", "Add a Department", "Add a Role", "Add an Employee", "Update Employee Role","Delete Department","Quit"],
+            choices: ["View All Departments", "View All Roles", "View All Employees", "Add a Department", "Add a Role", "Add an Employee", "Update Employee Role", "View Total Utilized Budgets", "Quit"],
             message: 'Please select one from the list below.',
             name: 'all',
         }
@@ -70,10 +70,6 @@ const initPrompt = () => {
         // to update an employee's role
         }else if(ans.all === "Update Employee Role") {
             updateEmp()
-
-        // to delete a department
-        }else if(ans.all === "Delete Department"){
-            deleteDep()
 
         // to quit
         }else {
@@ -193,21 +189,3 @@ const updateEmp = () => {
         }
     }));
 }
-
-// const deleteDep = () => {
-//     let currentDep = db.query('SELECT*FROM department', () => {
-//         inquirer.prompt ([
-//             {
-//                 type: 'list',
-//                 message: "Which department is being dissolved?",
-//                 name: 'delDep',
-//                 choices: [currentDep]
-//             },
-//             ])
-//         }).then ((ans => {
-//            return db.query("DELETE FROM department WHERE department= [ans.delDep]", function(err, results){
-//                 console.log(`Successfully dissolved ${ans.delDep}.`)
-//                 initPrompt()
-//             })
-//         }))
-// }
