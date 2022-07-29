@@ -26,7 +26,7 @@ const initPrompt = () => {
     inquirer.prompt([
         {
             type: 'list',
-            choices: ["View All Departments", "View All Roles", "View All Employees", "Add a Department", "Add a Role", "Add an Employee", "Update Employee Role", "View Total Utilized Budgets", "Quit"],
+            choices: ["View All Departments", "View All Roles", "View All Employees", "Add a Department", "Add a Role", "Add an Employee", "Update Employee Role", "Quit"],
             message: 'Please select one from the list below.',
             name: 'all',
         }
