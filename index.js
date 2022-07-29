@@ -22,7 +22,7 @@ const initPrompt = () => {
         {
             type: 'list',
             choices: ["View All Departments", "View All Roles", "View All Employees", "Add a Department", "Add a Role", "Add an Employee", "Update Employee Role", "Quit"],
-            message: 'Pleaser select one from the list below.',
+            message: 'Please select one from the list below.',
             name: 'all',
         }
     ]).then((ans=> {
@@ -65,7 +65,7 @@ const initPrompt = () => {
 
         // to update an employee's role
         }else if(ans.all === "Update Employee Role") {
-            updateEmp
+            updateEmp()
 
         // to quit
         }else {
@@ -85,8 +85,8 @@ const newDep = () =>{
             name: 'dep',
         }
     ]).then((ans=> {
-        db.query('INSERT INTO department(department) VALUES (ans.dep)', function(err, results) {
-            console.log('Added ${ans.dep} to the database.')
+        db.query("INSERT INTO department(department) VALUES (?)", [ans.dep], function(err, results) {
+            console.log(`Added ${ans.dep} to the database.`)
             initPrompt()
         })
     
@@ -113,8 +113,8 @@ const newRole = () => {
             name: 'rdep',
         }
     ]).then((ans=> {
-            db.query('INSERT INTO role(title, salary, department_id) VALUES (ans.nrole, ans.salary, ans.rdep)', function(err,results){
-                console.log('Added ${ans.nrole} to the database.')
+            db.query('INSERT INTO role(title, salary, department_id) VALUES (?,?,?)', [ans.nrole, ans.salary, ans.rdep], function(err,results){
+                console.log(`Added ${ans.nrole} to the database.`)
                 initPrompt()
             })
     }))
@@ -146,8 +146,8 @@ const newEmp = () => {
             name: 'manage',
         }
     ]).then((ans => {
-            db.query('INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)' [ans.first, ans.last, ans.empRole, ans.manage], function(err, results){
-                console.log('Added ${ans.first} ${ans.last} to the database.')
+            db.query('INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)', [ans.first, ans.last, ans.empRole, ans.manage], function(err, results){
+                console.log(`Added ${ans.first} ${ans.last} to the database.`)
                 initPrompt()
             })
     }))
@@ -170,10 +170,10 @@ const updateEmp = () => {
             name: 'newrole'
         }
     ]).then((ans=>{
-        db.query('UPDATE employee SET role_id = "${ans.newrole" WHERE name = "${ans.who}";', function(err,results){
+        db.query(`UPDATE employee SET role_id = ${ans.newrole} WHERE name = ${ans.who}`), function(err,results) {
             console.log(`Successfully updated ${ans.who} in the database.`)
             initPrompt()
-        })
-        
-    }))
+
+        }
+    }));
 }
